@@ -7,6 +7,11 @@ class ChatMessage {
 	String nick
 	String message
 	
+	static constraints = {
+		nick instanceof: String, blank: false
+		message instanceof: String, blank: false
+	}
+	
 	int hashCode(){
 		return Objects.hashCode(nick, message)
 	}
