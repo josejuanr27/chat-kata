@@ -15,7 +15,6 @@
     </properties>
 
     <dependencies>
-
         <dependency>
             <groupId>org.grails</groupId>
             <artifactId>grails-dependencies</artifactId>
@@ -101,13 +100,10 @@
         <type>zip</type>
     </dependency>
                     
-
-
     <dependency>
     	<groupId>com.google.guava</groupId>
     	<artifactId>guava</artifactId>
     	<version>14.0</version>
-    	<classifier>site</classifier>
     </dependency>
     </dependencies>
 
@@ -130,7 +126,7 @@
                             <goal>test</goal>
                         </goals>
                         <configuration>
-                            <skip>false</skip>
+                            <skip>true</skip>
                         </configuration>
                     </execution>
                 </executions>
