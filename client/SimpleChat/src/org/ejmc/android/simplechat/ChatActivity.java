@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.TextView;
 
 /**
  * Chat activity.
@@ -13,11 +15,16 @@ import android.view.MenuItem;
  */
 public class ChatActivity extends Activity {
 
+	private TextView ip;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_chat);
+		ip = (TextView) findViewById(R.id.user);
 
+		Bundle bundle = getIntent().getExtras();
+        ip.setText(bundle.getString("direccion"));
 		// Show the Up button in the action bar.
 		setupActionBar();
 
