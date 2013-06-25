@@ -5,8 +5,8 @@ import java.util.concurrent.locks.ReentrantReadWriteLock
 
 
 class ChatService {
-	private ArrayList<ChatMessage> listaMs = new ArrayList<ChatMessage>()
-	private ReentrantReadWriteLock rwl = new ReentrantReadWriteLock()
+	private final ArrayList<ChatMessage> listaMs = new ArrayList<ChatMessage>()
+	private final ReentrantReadWriteLock rwl = new ReentrantReadWriteLock()
 	private final Lock r = rwl.readLock()
 	private final Lock w = rwl.writeLock()
 	/**
@@ -20,10 +20,12 @@ class ChatService {
 	Integer collectChatMessages(Collection<ChatMessage> collector, Integer fromSeq = null){
 		r.lock()
 		try {
-			if(fromSeq==null)
-			fromSeq=0
-			else
-			fromSeq++
+			if(fromSeq==null){
+				fromSeq=0
+			}
+			else{
+				fromSeq++
+			}
 
 			//If rápido
 			//fromSeq==null?fromSeq=0:fromSeq++

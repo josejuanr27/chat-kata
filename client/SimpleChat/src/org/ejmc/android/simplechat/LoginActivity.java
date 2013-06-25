@@ -40,6 +40,7 @@ public class LoginActivity extends Activity {
 	
 	public void ejecutar(View view) {
         Intent i = new Intent(this, ChatActivity.class);
+        i.putExtra("nombre", nombre.getText().toString());
         i.putExtra("direccion", ip.getText().toString());
         startActivity(i);
     }
