@@ -16,6 +16,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.NavUtils;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -145,8 +146,10 @@ public class ChatActivity extends Activity {
 				mHandler.sendMessage(mensajeAnd);
 			}
 		}).start();
-		Toast.makeText(getApplicationContext(), R.string.updateMessages,
-				Toast.LENGTH_LONG).show();
+		Toast t2 = Toast.makeText(getApplicationContext(), R.string.updateMessages,
+				Toast.LENGTH_LONG);
+		t2.setGravity(Gravity.CENTER, 0, 0);
+		t2.show();
 	}
 
 	public void enviar(View view) {
@@ -166,6 +169,7 @@ public class ChatActivity extends Activity {
 		}).start();
 		Toast.makeText(getApplicationContext(), R.string.sendMessage,
 				Toast.LENGTH_LONG).show();
+		recibir(view);
 		mensaje.setText("");
 	}
 
