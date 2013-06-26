@@ -1,5 +1,6 @@
 package org.ejmc.android.simplechat.net;
 
+import org.ejmc.android.simplechat.model.ChatList;
 import org.ejmc.android.simplechat.model.RequestError;
 
 /**
@@ -13,11 +14,28 @@ import org.ejmc.android.simplechat.model.RequestError;
  */
 public class NetResponseHandler<Response> {
 
+	private ChatList lista;
+	
+
 	/**
 	 * Handles a successful request
 	 * */
 	public void onSuccess(Response response) {
+		lista = (ChatList) response;
+	}
 
+	/**
+	 * @return the lista
+	 */
+	public ChatList getLista() {
+		return lista;
+	}
+
+	/**
+	 * @param lista the lista to set
+	 */
+	public void setLista(ChatList lista) {
+		this.lista = lista;
 	}
 
 	/**
@@ -33,4 +51,5 @@ public class NetResponseHandler<Response> {
 	public void onRequestError(RequestError error) {
 
 	}
+
 }
