@@ -46,7 +46,6 @@ public class NetRequests {
 					"http://172.20.0.9/chat-kata/api/chat");
 			HttpResponse response = client.execute(httpget);
 			HttpEntity entity = response.getEntity();
-			//ChatList chatList = new ChatList();
 			String entityString = EntityUtils.toString(entity);
 			
 
@@ -55,7 +54,6 @@ public class NetRequests {
 				JSONArray jsonMainArr = new JSONArray();
 				jsonMainArr = jsonObject.getJSONArray("messages");
 
-				/* Recorremos el JSONArray con los mensajes */
 				Message auxMessage;
 				ChatList listaMensajes = new ChatList();
 

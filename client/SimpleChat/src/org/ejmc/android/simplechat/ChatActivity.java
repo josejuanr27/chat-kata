@@ -39,8 +39,8 @@ public class ChatActivity extends Activity {
 	private Button refresh;
 	private EditText mensaje;
 	private ListView listaMsg;
-	private NetRequests prueba = new NetRequests();
-	private NetResponseHandler<ChatList> handler = new NetResponseHandler<ChatList>();
+	private NetRequests prueba;
+	private NetResponseHandler<ChatList> handler;
 	private int last_seq = 0;
 
 	private Handler mHandler = new Handler() {
@@ -72,7 +72,6 @@ public class ChatActivity extends Activity {
 		// Show the Up button in the action bar.
 		setupActionBar();
 
-		// Hilo para comprobar mensajes cada 10 seg
 		new Thread(new Runnable() {
 			Timer timer;
 
@@ -84,22 +83,9 @@ public class ChatActivity extends Activity {
 
 			TimerTask timerTask = new TimerTask() {
 				public void run() {
-					try {
-						prueba.chatGET(last_seq, handler);
-					} catch (ClientProtocolException e) {
-						e.printStackTrace();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-					android.os.Message mensajeAnd = new android.os.Message();
-					mensajeAnd.obj = handler.getLista();
-					mHandler.sendMessage(mensajeAnd);
+					recibirMensajes();
 				}
 			};
-
-			public void stopTimer() {
-				timer.cancel();
-			}
 		}).start();
 	}
 
@@ -130,24 +116,11 @@ public class ChatActivity extends Activity {
 	public void recibir(View view) {
 		new Thread(new Runnable() {
 			public void run() {
-				NetRequests prueba = new NetRequests();
-				NetResponseHandler<ChatList> handler = new NetResponseHandler<ChatList>();
-				try {
-
-					prueba.chatGET(last_seq, handler);
-				} catch (ClientProtocolException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-
-				android.os.Message mensajeAnd = new android.os.Message();
-				mensajeAnd.obj = handler.getLista();
-				mHandler.sendMessage(mensajeAnd);
+				recibirMensajes();
 			}
 		}).start();
-		Toast t2 = Toast.makeText(getApplicationContext(), R.string.updateMessages,
-				Toast.LENGTH_LONG);
+		Toast t2 = Toast.makeText(getApplicationContext(),
+				R.string.updateMessages, Toast.LENGTH_LONG);
 		t2.setGravity(Gravity.CENTER, 0, 0);
 		t2.show();
 	}
@@ -173,4 +146,19 @@ public class ChatActivity extends Activity {
 		mensaje.setText("");
 	}
 
+	public void recibirMensajes() {
+		prueba = new NetRequests();
+		handler = new NetResponseHandler<ChatList>();
+		try {
+			prueba.chatGET(last_seq, handler);
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		android.os.Message mensajeAnd = new android.os.Message();
+		mensajeAnd.obj = handler.getLista();
+		mHandler.sendMessage(mensajeAnd);
+	}
 }
