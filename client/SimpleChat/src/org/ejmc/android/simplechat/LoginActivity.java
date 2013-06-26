@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 /**
  * Main activity.
@@ -19,15 +20,14 @@ import android.widget.EditText;
 public class LoginActivity extends Activity {
 
 	private Button btnEntrar;
-	private EditText nombre, ip;
-	
+	private EditText nombre;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
-		
+
 		nombre = (EditText) findViewById(R.id.txtNombre);
-		ip = (EditText) findViewById(R.id.txtIP);	
 		btnEntrar = (Button) findViewById(R.id.btnEntrar);
 	}
 
@@ -37,12 +37,17 @@ public class LoginActivity extends Activity {
 		getMenuInflater().inflate(R.menu.login, menu);
 		return true;
 	}
-	
+
 	public void ejecutar(View view) {
-        Intent i = new Intent(this, ChatActivity.class);
-        i.putExtra("nombre", nombre.getText().toString());
-        i.putExtra("direccion", ip.getText().toString());
-        startActivity(i);
-    }
+		if (nombre.getText() != null && !nombre.getText().toString().equals("")) {
+			Intent i = new Intent(this, ChatActivity.class);
+			i.putExtra("nombre", nombre.getText().toString());
+			startActivity(i);
+
+		} else {
+			Toast.makeText(getApplicationContext(), R.string.alertSetUser,
+					Toast.LENGTH_LONG).show();
+		}
+	}
 
 }

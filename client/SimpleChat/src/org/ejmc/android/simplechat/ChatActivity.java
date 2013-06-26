@@ -2,8 +2,11 @@ package org.ejmc.android.simplechat;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.util.EntityUtils;
 import org.ejmc.android.simplechat.model.ChatList;
 import org.ejmc.android.simplechat.model.Message;
 import org.ejmc.android.simplechat.net.NetRequests;
@@ -16,9 +19,12 @@ import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Chat activity.
@@ -31,15 +37,22 @@ public class ChatActivity extends Activity {
 	private Button send;
 	private Button refresh;
 	private EditText mensaje;
-	private EditText listaMsg;
-	private Handler mHandler = new Handler(){
-		public void handleMessage(android.os.Message msgAndroid){
-			ChatList chatList = (ChatList) msgAndroid.obj;
-			ArrayList<Message> messages = chatList.getMsgs();
-			
-			for (Message message : messages) {
-				listaMsg.append("\n "+message.getUserMessage()+": "+message.getMessage()+"\n---");
-			}
+	private ListView listaMsg;
+	private NetRequests prueba = new NetRequests();
+	private NetResponseHandler<ChatList> handler = new NetResponseHandler<ChatList>();
+	private int last_seq = 0;
+
+	private Handler mHandler = new Handler() {
+		public void handleMessage(android.os.Message msgAndroid) {//
+			ChatList cl = (ChatList) msgAndroid.obj;
+			ArrayAdapter adaptador = new ArrayAdapter<String>(
+					ChatActivity.this, android.R.layout.simple_list_item_1,
+					cl.getMessages());
+
+			last_seq = cl.getLast_seq();
+			ListView lv = (ListView) findViewById(R.id.listaMensajes);
+			lv.setAdapter(adaptador);
+			lv.smoothScrollToPosition(last_seq);
 		}
 	};
 
@@ -50,14 +63,43 @@ public class ChatActivity extends Activity {
 		send = (Button) findViewById(R.id.btnEnviar);
 		refresh = (Button) findViewById(R.id.btnRecibir);
 		nom = (TextView) findViewById(R.id.user);
-		mensaje = (EditText) findViewById(R.id.mensaje);
-		listaMsg = (EditText) findViewById(R.id.listaMensajes);
+		mensaje = (EditText) findViewById(R.id.txtMensaje);
+		listaMsg = (ListView) findViewById(R.id.listaMensajes);
 
 		Bundle bundle = getIntent().getExtras();
 		nom.setText(bundle.getString("nombre"));
 		// Show the Up button in the action bar.
 		setupActionBar();
 
+		// Hilo para comprobar mensajes cada 10 seg
+		new Thread(new Runnable() {
+			Timer timer;
+
+			@Override
+			public void run() {
+				timer = new Timer();
+				timer.scheduleAtFixedRate(timerTask, 0, 10000);
+			}
+
+			TimerTask timerTask = new TimerTask() {
+				public void run() {
+					try {
+						prueba.chatGET(last_seq, handler);
+					} catch (ClientProtocolException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					android.os.Message mensajeAnd = new android.os.Message();
+					mensajeAnd.obj = handler.getLista();
+					mHandler.sendMessage(mensajeAnd);
+				}
+			};
+
+			public void stopTimer() {
+				timer.cancel();
+			}
+		}).start();
 	}
 
 	@Override
@@ -90,19 +132,21 @@ public class ChatActivity extends Activity {
 				NetRequests prueba = new NetRequests();
 				NetResponseHandler<ChatList> handler = new NetResponseHandler<ChatList>();
 				try {
-					 
-					prueba.chatGET(0, handler);
+
+					prueba.chatGET(last_seq, handler);
 				} catch (ClientProtocolException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				
+
 				android.os.Message mensajeAnd = new android.os.Message();
 				mensajeAnd.obj = handler.getLista();
 				mHandler.sendMessage(mensajeAnd);
 			}
 		}).start();
+		Toast.makeText(getApplicationContext(), R.string.updateMessages,
+				Toast.LENGTH_LONG).show();
 	}
 
 	public void enviar(View view) {
@@ -118,9 +162,11 @@ public class ChatActivity extends Activity {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-		
 			}
 		}).start();
+		Toast.makeText(getApplicationContext(), R.string.sendMessage,
+				Toast.LENGTH_LONG).show();
+		mensaje.setText("");
 	}
 
 }

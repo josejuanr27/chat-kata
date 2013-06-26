@@ -52,17 +52,6 @@
         android:onClick="recibir"
         android:text="Recibir" />
 
-    <EditText
-        android:id="@+id/mensaje"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/btnEnviar"
-        android:layout_alignLeft="@+id/textView1"
-        android:layout_below="@+id/textView1"
-        android:layout_toLeftOf="@+id/btnEnviar"
-        android:ems="10"
-        android:scrollbars="vertical" />
-
     <TextView
         android:id="@+id/user"
         android:layout_width="wrap_content"
@@ -74,17 +63,26 @@
         android:editable="true"
         android:text="Usuario" />
 
-    <EditText
+    <ListView
         android:id="@+id/listaMensajes"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/btnEnviar"
         android:layout_alignLeft="@+id/mensaje"
-        android:layout_alignRight="@+id/btnRecibir"
-        android:layout_alignTop="@+id/mensaje"
-        android:editable="false"
-        android:scrollbarSize="10px"
-        android:scrollbars="vertical"
+        android:stackFromBottom="true"
+        android:transcriptMode="alwaysScroll"
+        android:layout_below="@+id/textView1" >
+
+    </ListView>
+
+    <EditText
+        android:id="@+id/txtMensaje"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/btnEnviar"
+        android:layout_alignLeft="@+id/listaMensajes"
+        android:layout_alignTop="@+id/btnEnviar"
+        android:layout_toLeftOf="@+id/btnEnviar"
         android:ems="10" >
 
         <requestFocus />

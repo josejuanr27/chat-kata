@@ -4,5 +4,8 @@
     <string name="app_name">SimpleChat</string>
     <string name="user">Introduzca usuario</string>
     <string name="ip">Introduzca IP</string>
+    <string name="alertSetUser">Introduzca Usuario</string>
+    <string name="sendMessage">Mensaje enviado</string>
+    <string name="updateMessages">Mensajes actualizados</string>
 
 </resources>
