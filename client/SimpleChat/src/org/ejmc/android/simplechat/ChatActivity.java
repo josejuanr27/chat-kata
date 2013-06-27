@@ -46,14 +46,9 @@ public class ChatActivity extends Activity {
 	private Handler mHandler = new Handler() {
 		public void handleMessage(android.os.Message msgAndroid) {//
 			ChatList cl = (ChatList) msgAndroid.obj;
-			ArrayAdapter adaptador = new ArrayAdapter<String>(
-					ChatActivity.this, android.R.layout.simple_list_item_1,
-					cl.getMessages());
-
-			last_seq = cl.getLast_seq();
+			AdapterMessage adaptador = new AdapterMessage(ChatActivity.this, cl.getMsgs());
 			ListView lv = (ListView) findViewById(R.id.listaMensajes);
 			lv.setAdapter(adaptador);
-			lv.smoothScrollToPosition(last_seq);
 		}
 	};
 
