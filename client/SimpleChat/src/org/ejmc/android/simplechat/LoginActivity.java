@@ -49,5 +49,10 @@ public class LoginActivity extends Activity {
 					Toast.LENGTH_LONG).show();
 		}
 	}
+	
+	public void limpiar(View view){
+		nombre.setText(null);
+		Toast.makeText(getApplicationContext(), R.string.alertCleanUser, Toast.LENGTH_LONG).show();
+	}
 
 }

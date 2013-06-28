@@ -6,6 +6,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="#ADD8E6"
     tools:context=".LoginActivity" >
 
     <Space
@@ -20,10 +21,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/txtNombre"
+        android:layout_below="@+id/imageView1"
+        android:layout_marginTop="23dp"
+        android:background="@drawable/blogrounded"
+        android:text="Nombre Usuario"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/txtNombre"
-        android:layout_marginTop="83dp"
-        android:text="Nombre Usuario" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp"
+        android:src="@drawable/buzon" />
 
     <EditText
         android:id="@+id/txtNombre"
@@ -31,7 +42,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView1"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="31dp"
+        android:layout_marginTop="17dp"
+        android:background="@drawable/blogrounded"
         android:ems="10"
         android:hint="@string/user"
         android:inputType="textPersonName" />
@@ -40,10 +52,22 @@
         android:id="@+id/btnEntrar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/txtNombre"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_marginTop="49dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/backgroundbutton"
         android:onClick="ejecutar"
         android:text="Entrar" />
 
+    <Button
+        android:id="@+id/btnLimpiar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/btnEntrar"
+        android:layout_toRightOf="@+id/imageView1"
+        android:background="@drawable/backgroundbutton"
+        android:onClick="limpiar"
+        android:text="Limpiar" >
+
+    </Button>
 </RelativeLayout>

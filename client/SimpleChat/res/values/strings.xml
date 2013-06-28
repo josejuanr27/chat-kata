@@ -7,5 +7,6 @@
     <string name="alertSetUser">Introduzca Usuario</string>
     <string name="sendMessage">Mensaje enviado</string>
     <string name="updateMessages">Mensajes actualizados</string>
+    <string name="alertCleanUser">Usuario limpio</string>
 
 </resources>

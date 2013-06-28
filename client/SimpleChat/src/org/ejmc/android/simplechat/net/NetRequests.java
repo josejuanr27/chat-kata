@@ -43,7 +43,7 @@ public class NetRequests {
 		try {
 			HttpClient client = AndroidHttpClient.newInstance("http.agent");
 			HttpGet httpget = new HttpGet(
-					"http://54.229.54.141/chat-kata/api/chat");
+					"http://172.16.100.31:8080/chat-kata/api/chat");
 			HttpResponse response = client.execute(httpget);
 			HttpEntity entity = response.getEntity();
 			String entityString = EntityUtils.toString(entity);
@@ -84,7 +84,7 @@ public class NetRequests {
 	public void chatPOST(Message message, NetResponseHandler<Message> handler)
 			throws JSONException, ClientProtocolException, IOException {
 		HttpClient client = new DefaultHttpClient();
-		HttpPost post = new HttpPost("http://54.229.54.141/chat-kata/api/chat");
+		HttpPost post = new HttpPost("http://172.16.100.31:8080/chat-kata/api/chat");
 		post.setHeader("content-type", "application/json");
 
 		JSONObject msg = new JSONObject();
